@@ -1,14 +1,14 @@
-use std::process::Command;
 use bevy::prelude::*;
 
 fn main() {
-	App::new().add_plugins(DefaultPlugins).add_systems(Startup, (spwan_floor, spawn_light, spawn_player,spawn_camera)).run();
+	App::new().add_plugins(DefaultPlugins).add_systems(Startup, (spawn_floor, spawn_light, spawn_player,spawn_camera)).run();
 }
 
 fn spawn_player(mut commands: Commands, mut meshes:ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>)
 {
 	let player = PbrBundle {
-		mesh: meshes.add(Mesh::from(shape::Cube::new(1.0))),
+		//mesh: meshes.add(Mesh::from(shape::Cube::new(1.0))),   !!! Deprecated !!!
+		mesh: meshes.add(Cuboid::default()),
 		material:materials.add(Color::BLUE),
 		transform: Transform::from_xyz(0.0, 0.5, 0.0),
 		..default()
@@ -35,11 +35,12 @@ fn spawn_camera(mut commands: Commands)
 	};
 	commands.spawn(camera);
 }
-fn spwan_floor( mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>)
+fn spawn_floor( mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>)
 {
 	let floor = PbrBundle
 	{
-		mesh: meshes.add(Mesh::from(shape::Plane::from_size(15.0))),
+		//mesh: meshes.add(Plane3d::from_size(15.0)),  !!! Deprecated !!!
+		mesh: meshes.add(Plane3d::default().mesh().size(15.0, 15.0)),
 		material: materials.add(Color::DARK_GREEN), ..default()
 	};
 
